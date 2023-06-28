@@ -9,6 +9,11 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Cache dependenicies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci
       - name: Lint code
@@ -23,6 +28,11 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Cache dependenicies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci
       - name: Build website
@@ -32,8 +42,8 @@ jobs:
         run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
-        with: 
-          name: dist-files 
+        with:
+          name: dist-files
           path: dist
           # path: |
           #   dist
